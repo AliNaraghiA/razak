@@ -1,0 +1,16 @@
+          query Galleries {
+            galleries {
+              nodes {
+                title
+                id
+                slug
+                acfgallery {
+                  title
+                  image {
+                    sourceUrl
+                    altText
+                  }
+                }
+              }
+            }
+          }

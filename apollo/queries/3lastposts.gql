@@ -1,0 +1,18 @@
+query ALL_POSTS_QUERY {
+  posts(last: 3) {
+    nodes {
+      title
+      date
+      id
+      databaseId
+      excerpt
+      slug
+      featuredImage {
+        node {
+          altText
+          sourceUrl
+        }
+      }
+    }
+  }
+}

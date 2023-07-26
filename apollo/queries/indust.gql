@@ -1,0 +1,17 @@
+query indust($id: ID!) {
+  industrial(id: $id, idType: DATABASE_ID) {
+    slug
+    title
+    acfindustrial {
+      description
+      sizetitle
+      title
+      gallery {
+        sourceUrl
+      }
+      repeater {
+        one
+      }
+    }
+  }
+}

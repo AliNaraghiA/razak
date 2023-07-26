@@ -2,6 +2,7 @@ export default {
   ssr: true,
   target: "server",
   // Global page headers: https://go.nuxtjs.dev/config-head
+
   head: {
     title: "Razak",
     htmlAttrs: {
@@ -25,7 +26,9 @@ export default {
   plugins: [
     { src: "~/plugins/splide.client", mode: "client" },
     { src: "~/plugins/aos", mode: "client" },
-  ],
+    { src: "~/plugins/apolloClient", mode: "client" },
+/*      '~/plugins/apolloClient', 
+ */  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: [
@@ -39,6 +42,7 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/typescript
     "@nuxt/typescript-build",
+    "@nuxtjs/apollo",
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -46,7 +50,18 @@ export default {
     // https://go.nuxtjs.dev/bootstrap
     "bootstrap-vue/nuxt",
   ],
-
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'https://wprazak.ravakdemo.ir/graphql',
+/*         httpLinkOptions: {
+          headers: {
+            Authorization: `Bearer ${process.env.JWT_AUTH_TOKEN}`,
+          },
+        }, */
+      },
+    },
+  },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extend(config) {

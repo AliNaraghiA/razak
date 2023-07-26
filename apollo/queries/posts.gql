@@ -1,0 +1,22 @@
+        query Posts($first: Int, $after: String) {
+          posts(first: $first, after: $after) {
+            pageInfo {
+              endCursor
+              hasNextPage
+              hasPreviousPage
+            }
+            edges {
+              node {
+                databaseId
+                title
+                slug
+                excerpt
+                featuredImage {
+                  node {
+                    sourceUrl
+                  }
+                }
+              }
+            }
+          }
+        }

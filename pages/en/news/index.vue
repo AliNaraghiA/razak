@@ -49,7 +49,7 @@
     </div>
     <div class="d-flex someNews">
       <div class="lastNews">
-        <div class="title">The latest content <span></span></div>
+<!--         <div class="title">The latest content <span></span></div>
         <div class="lastNew d-flex" v-for="item in lastNews" :key="item.id">
           <div>
             <div class="newTitle">{{ item.title }}</div>
@@ -67,11 +67,39 @@
             </div>
           </div>
           <img :src="item.img" alt="newPic" class="newPic" />
+        </div> -->
+        <div class="title">The latest content  <span></span></div>
+        <div class="lastNew d-flex" v-for="post in posts.edges" :key="post.databaseId">
+          <div>
+            <nuxt-link :to="`/en/news/${post.node.slug}`">
+              <div class="newTitle">{{ post.node.title }}</div>
+              </nuxt-link>
+            <p v-html='post.node.excerpt'></p>
+            <div class="d-flex align-items-center">
+              <img src="/icons/profile.svg" class="profile" alt="profile" />
+              <div class="writer">{{ post.node.author.node.name }}</div>
+              <span class="littleLine"></span>
+              <img
+                src="/icons/blackCalendar.svg"
+                class="calendar"
+                alt="calendar"
+              />
+              <div class="date">{{ formatDate(post.node.date) }}</div>
+            </div>
+          </div>
+          <img :src="post.node.featuredImage.node.sourceUrl" :alt="post.node.featuredImage.node.altText" class="newPic" />
         </div>
         <div
           class="pagination d-flex justify-content-center align-items-center"
         >
-          <span
+        <div v-if='hasNextPage=true'>
+    <div class="pagination">
+      <button @click="previousPage" :disabled="page === 1">Previous</button>
+      <span>Page {{ page }}</span>
+     <button @click="nextPage" :disabled="!posts || !posts.pageInfo || !posts.pageInfo.hasNextPage">Next</button>
+    </div>
+      </div> 
+<!--           <span
             :class="{ activePage: pagination == 1 }"
             @click="pagination = 1"
             class="num"
@@ -101,7 +129,7 @@
             class="num"
           >
             04
-          </span>
+          </span> -->
         </div>
       </div>
       <div class="lotsVisit">
@@ -136,8 +164,12 @@
 </template>
 
 <script>
+import newsEnScript from '~/utils/newsEnScript';
+
 export default {
   layout: "main",
+  mixins: [newsEnScript],
+
   data() {
     return {
       mouseDown: false,
@@ -145,7 +177,7 @@ export default {
       scrollLeft: null,
       pagination: 1,
 
-      lastNews: [
+/*       lastNews: [
         {
           id: 0,
           title:
@@ -182,7 +214,7 @@ export default {
           date: "2020/02/02",
           img: "/images/lastNew4.jpg",
         },
-      ],
+      ], */
     };
   },
   methods: {

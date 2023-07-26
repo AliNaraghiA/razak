@@ -1,0 +1,19 @@
+query construction($id: ID!) {
+  construction(id: $id, idType: DATABASE_ID) {
+    databaseId
+    slug
+    title
+    acfconstructions {
+      category
+      repeater {
+        image {
+          altText
+          sourceUrl
+        }
+        name
+        title
+        weight
+      }
+    }
+  }
+}

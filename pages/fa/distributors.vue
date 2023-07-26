@@ -10,7 +10,19 @@
       <router-link to="/fa/"> صفحه اصلی . </router-link>
       مراکز پخش محصولات رازک
     </div>
-    <div class="about d-flex justify-content-between align-items-center">
+
+    <div>
+    <h1>{{ maindistribution.title }}</h1>
+    <img :src="maindistribution.featuredImage.node.sourceUrl" :alt="maindistribution.featuredImage.node.altText">
+    <div v-for="item in maindistribution.acfmaindistribution.repeater" :key="item.id">
+      <h2>{{ item.title }}</h2>
+      <img :src="item.image.sourceUrl" :alt="item.image.altText">
+      <p>{{ item.city }}</p>
+      <p>{{ item.address }}</p>
+    </div>
+  </div>
+
+    <div class="about d-flex justify-content-between align-items-center" >
       <div>
         <div class="title">
           لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ
@@ -178,6 +190,7 @@
 </template>
 
 <script>
+import maindistribution from '~/apollo/queries/maindistribution.gql'
 export default {
   layout: "main",
   data() {
@@ -218,6 +231,12 @@ export default {
       } else {
         this.slideOption = 3;
       }
+    },
+  },
+  //dynamic
+  apollo: {
+    maindistribution: {
+      query:maindistribution,
     },
   },
 };

@@ -13,7 +13,7 @@
     <div class="topNews">
       <div class="title">
         اخبار منتخب
-        <span></span>
+        <span></span>        
       </div>
       <div
         class="newsList d-flex justify-content-between"
@@ -24,20 +24,18 @@
         @mouseleave="stopDragging"
         ref="parent"
       >
-        <div class="new" v-for="i in 4" :key="i">
+        <div class="new" v-if='selected' v-for='select in selected' :key="select.id">
           <div class="effect">
             <div class="title">اخبار</div>
             <p class="about">
-              تقدیر از شرکت رازک در دومین اجلاس سراسری مدیران ارزش آفرین
+              {{ select.title }}
             </p>
-            <p class="text">
-              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-              استفاده از طراحان گرافیک است چاپگرها ...
+            <p class="text" v-html='select.excerpt'>
             </p>
-            <router-link to="/news/1" class="littleCircleLink">
+            <router-link :to="`/fa/news/${select.slug}`" class="littleCircleLink">
               بیشتر بخوانید
-              <div class="imgDiv">
-                <img src="/icons/angleArrow.svg" alt="circleArrow" />
+              <div class="imgDiv" v-if='select.featuredImage'>
+                <img :src="select.featuredImage.node.sourceUrl" :alt="select.featuredImage.node.altText"/>
               </div>
             </router-link>
           </div>
@@ -47,28 +45,37 @@
     <div class="d-flex someNews">
       <div class="lastNews">
         <div class="title">آخرین مطالب<span></span></div>
-        <div class="lastNew d-flex" v-for="item in lastNews" :key="item.id">
+        <div class="lastNew d-flex" v-for="post in posts.edges" :key="post.databaseId">
           <div>
-            <div class="newTitle">{{ item.title }}</div>
-            <p>{{ item.text }}</p>
+            <nuxt-link :to="`/fa/news/${post.node.slug}`">
+              <div class="newTitle">{{ post.node.title }}</div>
+              </nuxt-link>
+            <p v-html='post.node.excerpt'></p>
             <div class="d-flex align-items-center">
               <img src="/icons/profile.svg" class="profile" alt="profile" />
-              <div class="writer">{{ item.writer }}</div>
+              <div class="writer">{{ post.node.author.node.name }}</div>
               <span class="littleLine"></span>
               <img
                 src="/icons/blackCalendar.svg"
                 class="calendar"
                 alt="calendar"
               />
-              <div class="date">{{ item.date }}</div>
+              <div class="date">{{ formatDate(post.node.date) }}</div>
             </div>
           </div>
-          <img :src="item.img" alt="newPic" class="newPic" />
+          <img v-if='post.node.featuredImage' :src="post.node.featuredImage.node.sourceUrl" :alt="post.node.featuredImage.node.altText" class="newPic" />
         </div>
         <div
           class="pagination d-flex justify-content-center align-items-center"
         >
-          <span
+             <div v-if='hasNextPage=true'>
+    <div class="pagination">
+      <button @click="previousPage" :disabled="page === 1">Previous</button>
+      <span>Page {{ page }}</span>
+     <button @click="nextPage" :disabled="!posts || !posts.pageInfo || !posts.pageInfo.hasNextPage">Next</button>
+    </div>
+      </div> 
+         <!--  <span
             :class="{ activePage: pagination == 1 }"
             @click="pagination = 1"
             class="num"
@@ -98,7 +105,7 @@
             class="num"
           >
             04
-          </span>
+          </span> -->
         </div>
       </div>
       <div class="lotsVisit">
@@ -131,16 +138,21 @@
 </template>
 
 <script>
+import newsFaScript from '~/utils/newsFaScript';
+import newsFaSelectScript from '~/utils/newsFaSelectScript';
+
 export default {
   layout: "main",
+  mixins: [newsFaScript,newsFaSelectScript],
+
   data() {
     return {
       mouseDown: false,
       startX: null,
       scrollLeft: null,
       pagination: 1,
-
-      lastNews: [
+      
+/*       lastNews: [
         {
           id: 0,
           title: "شرکت داروسازی لابراتوارهای رازک در مسیر بهبود مستمر",
@@ -173,7 +185,7 @@ export default {
           date: "۱۴۰۱/۹/۱۲",
           img: "/images/lastNew4.jpg",
         },
-      ],
+      ], */
     };
   },
   methods: {

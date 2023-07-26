@@ -1,0 +1,28 @@
+query maindistribution {
+  maindistribution(id:117,idType:DATABASE_ID){
+    categories{
+      nodes{
+        name
+      }
+    }
+    title
+    featuredImage{
+      node{
+        altText
+        sourceUrl
+      }
+    }
+    content
+    acfmaindistribution{
+      repeater{
+        city
+        address
+        title
+        image{
+          altText
+          sourceUrl
+        }
+      }
+    }
+  }
+}

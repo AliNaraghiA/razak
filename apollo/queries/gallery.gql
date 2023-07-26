@@ -1,0 +1,16 @@
+        query gallery($slug: String!) {
+          galleries(where: { title: $slug }) {
+            edges {
+              node {
+                title
+                slug
+                acfgallery {
+                  title
+                  gallery {
+                    sourceUrl
+                  }
+                }
+              }
+            }
+          }
+        }

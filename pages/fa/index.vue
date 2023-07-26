@@ -312,6 +312,7 @@
 <script>
 import gsap from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import SlideTheme from '~/apollo/queries/SlideTheme.gql'
 export default {
   layout: "main",
   data() {
@@ -516,6 +517,13 @@ export default {
         },
         width: "100%",
       });
+    },
+  },
+  //apollo
+  apollo: {
+    SlideTheme: {
+      query: SlideTheme,
+      prefetch: true,
     },
   },
 };

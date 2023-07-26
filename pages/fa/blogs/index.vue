@@ -133,6 +133,7 @@
 <script>
 export default {
   layout: "main",
+
   data() {
     return {
       mouseDown: false,

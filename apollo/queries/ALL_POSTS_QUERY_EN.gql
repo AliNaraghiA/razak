@@ -1,0 +1,31 @@
+query ALL_POSTS_QUERY_EN {
+  posts(where: {categoryName: "En"}, first: 100) {
+    nodes {
+      title
+      date
+      id
+      databaseId
+      excerpt
+      content
+      slug
+      categories {
+        nodes {
+          name
+        }
+      }
+      tags {
+        nodes {
+          name
+        }
+      }
+      featuredImage {
+        node {
+          altText
+          sourceUrl
+        }
+      }
+    }
+  }
+}
+
+  

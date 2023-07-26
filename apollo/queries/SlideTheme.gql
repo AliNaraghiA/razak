@@ -1,0 +1,10 @@
+query HomeSlide {
+ slidetheme(id:35 idType:DATABASE_ID){
+  slideTheme{
+    slide{
+      altText
+      sourceUrl
+    }
+  }
+}
+}

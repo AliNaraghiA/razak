@@ -1,0 +1,20 @@
+query industrials {
+  industrials {
+    edges {
+      node {
+        acfindustrial {
+          title
+          gallery {
+            altText
+            sourceUrl
+          }
+          repeater{
+            one
+            two
+            tree
+          }
+        }
+      }
+    }
+  }
+}
