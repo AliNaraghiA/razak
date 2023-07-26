@@ -1,4 +1,12 @@
 import gql from 'graphql-tag'
+const postTags = response.data.post.tags.nodes.map(tag => tag.name);
+relatedPosts.map(post => (
+  <div key={post.id}>
+    <h2>{post.title}</h2>
+    <p>{post.excerpt}</p>
+    <p>By {post.author.name}</p>
+  </div>
+));
 export default {
 //SEO
   computed: {
@@ -60,6 +68,11 @@ export default {
       metaKeywords
       focuskw
     }
+    tags {
+      nodes {
+        name
+      }
+    }
   }
 }
       `;
@@ -77,5 +90,5 @@ export default {
           };
         });
     },
-
+  
   };

@@ -25,22 +25,18 @@
         @mouseleave="stopDragging"
         ref="parent"
       >
-        <div class="new" v-for="i in 4" :key="i">
+      <div class="new" v-if='selected' v-for='select in selected' :key="select.id">
           <div class="effect">
             <div class="title">News</div>
             <p class="about">
-              Appreciation of Razak company in the second nationwide meeting of
-              value-creating managers
+              {{ select.title }}
             </p>
-            <p class="text">
-              Lorem Epsom fake text with the production of incomprehensible
-              simplicity from the printing industry and with The use of graphic
-              designers, printers...
+            <p class="text" v-html='select.excerpt'>
             </p>
-            <router-link to="news/1" class="littleCircleLinkEn">
+            <router-link :to="`/en/news/${select.slug}`" class="littleCircleLinkEn">
               read more
-              <div class="imgDiv">
-                <img src="/icons/angleArrow.svg" alt="circleArrow" />
+                <div class="imgDiv" v-if='select.featuredImage'>
+                <img :src="select.featuredImage.node.sourceUrl" :alt="select.featuredImage.node.altText"/>
               </div>
             </router-link>
           </div>
@@ -165,10 +161,11 @@
 
 <script>
 import newsEnScript from '~/utils/newsEnScript';
+import newsEnSelectScript from '~/utils/newsEnSelectScript';
 
 export default {
   layout: "main",
-  mixins: [newsEnScript],
+  mixins: [newsEnScript,newsEnSelectScript],
 
   data() {
     return {
