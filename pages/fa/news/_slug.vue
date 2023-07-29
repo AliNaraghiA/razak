@@ -21,13 +21,13 @@
         <img
         v-if='post.featuredImage'
           :src="post.featuredImage.node.sourceUrl"
-          alt="post.featuredImage.node.altText"
+          :alt="post.featuredImage.node.altText"
           class="newImg"
         />
         <p v-html="post.content"></p>
         <div class="writer">
           <img src="/icons/profile.svg" alt="profile" />
-          {{ post.author.node.name }}
+          {{ post.author?.node.name }}
         </div>
         <div class="date">
           <img src="/icons/blackCalendar.svg" alt="blackCalendar" />
@@ -74,17 +74,19 @@
         @mouseleave="stopDragging"
         ref="parent"
       >
-        <div class="new" v-for="i in 4" :key="i">
+
+      <nuxt-link :to="`/posts/${post.slug}`">
+      </nuxt-link>
+        <div class="new" v-for="post1 in relatedPosts">
           <div class="effect">
             <div class="title">اخبار</div>
             <p class="about">
-              تقدیر از شرکت رازک در دومین اجلاس سراسری مدیران ارزش آفرین
+              {{ post1.title }}
+             </p>
+            <p class="text" v-html="post1.excerpt">
+              
             </p>
-            <p class="text">
-              لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با
-              استفاده از طراحان گرافیک است چاپگرها ...
-            </p>
-            <router-link to="/" class="littleCircleLink">
+            <router-link  :to="`/fa/news/${post1.slug}`"  class="littleCircleLink">
               بیشتر بخوانید
               <div class="imgDiv">
                 <img src="/icons/angleArrow.svg" alt="circleArrow" />

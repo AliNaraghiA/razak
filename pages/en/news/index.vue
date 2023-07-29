@@ -35,8 +35,8 @@
             </p>
             <router-link :to="`/en/news/${select.slug}`" class="littleCircleLinkEn">
               read more
-                <div class="imgDiv" v-if='select.featuredImage'>
-                <img :src="select.featuredImage.node.sourceUrl" :alt="select.featuredImage.node.altText"/>
+                <div class="imgDiv" >
+                <img src="/icons/blueAngleArrow.svg" alt="blueCircleArrow" />
               </div>
             </router-link>
           </div>
@@ -83,7 +83,7 @@
               <div class="date">{{ formatDate(post.node.date) }}</div>
             </div>
           </div>
-          <img :src="post.node.featuredImage.node.sourceUrl" :alt="post.node.featuredImage.node.altText" class="newPic" />
+          <img  v-if='post.node.featuredImage' :src="post.node.featuredImage.node.sourceUrl" :alt="post.node.featuredImage.node.altText" class="newPic" />
         </div>
         <div
           class="pagination d-flex justify-content-center align-items-center"
