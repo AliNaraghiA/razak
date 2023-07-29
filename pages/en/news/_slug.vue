@@ -18,18 +18,18 @@
         improvement</span
       >
     </div>
-    <div class="news d-flex">
+    <div class="news d-flex" >
       <div class="new">
         <p>
-          {{ post.title }}
+          {{ post.title || 'Loading...' }}
 
         </p>
-        <img  :src="post.featuredImage.node.sourceUrl" alt="post.featuredImage.node.altText"  class="newImg" />
+        <img  v-if='post.featuredImage' :src="post.featuredImage.node.sourceUrl" :alt="post.featuredImage.node.altText"  class="newImg" />
         <p v-html='post.content'>
         </p>
         <div class="writer">
           <img src="/icons/profile.svg" alt="profile" />
-          {{ post.author.node.name }}
+          {{ post.author?.node.name }}
         </div>
         <div class="date">
           <img src="/icons/blackCalendar.svg" alt="blackCalendar" />
@@ -78,19 +78,16 @@
         @mouseleave="stopDragging"
         ref="parent"
       >
-        <div class="new" v-for="i in 4" :key="i">
+        <div class="new" v-for="post1 in relatedPosts" >
           <div class="effect">
             <div class="title">News</div>
             <p class="about">
-              Appreciation of Razak company in the second nationwide meeting of
-              value-creating managers
+              {{ post1.title }}
             </p>
-            <p class="text">
-              Lorem Epsom fake text with the production of incomprehensible
-              simplicity from the printing industry and with The use of graphic
-              designers, printers...
+            <p class="text" v-html="post1.excerpt">
+              
             </p>
-            <router-link to="/" class="littleCircleLinkEn">
+            <router-link  :to="`/en/news/${post1.slug}`" class="littleCircleLinkEn">
               read more
               <div class="imgDiv">
                 <img src="/icons/angleArrow.svg" alt="circleArrow" />

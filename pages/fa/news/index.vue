@@ -34,8 +34,8 @@
             </p>
             <router-link :to="`/fa/news/${select.slug}`" class="littleCircleLink">
               بیشتر بخوانید
-              <div class="imgDiv" v-if='select.featuredImage'>
-                <img :src="select.featuredImage.node.sourceUrl" :alt="select.featuredImage.node.altText"/>
+              <div class="imgDiv" >
+                <img src="/icons/blueAngleArrow.svg" alt="blueCircleArrow" />
               </div>
             </router-link>
           </div>

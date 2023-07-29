@@ -1,7 +1,32 @@
+<template>
+  <div>
+    <p>
+      {{ post.title }}
+
+        </p>
+    <h2>Related Posts</h2>
+    
+    <div v-for="post1 in relatedPosts">
+      <nuxt-link :to="`/posts/${post.slug}`">
+        {{ post1.title }}
+      </nuxt-link>
+    </div>
+  </div>
+  
+  <!-- Rest of post content -->
+
+</template>
+
+
+
+
+
+
+<script>
 import gql from 'graphql-tag'
 
 
- const GET_POST_AND_RELATED = gql`
+const GET_POST_AND_RELATED = gql`
   query PostBySlug($slug: ID!) {
         post(id: $slug, idType: SLUG) {
           id
@@ -31,16 +56,9 @@ import gql from 'graphql-tag'
           name
           posts(first: 10) {
             nodes {
-              excerpt
               id 
               title
               slug
-              featuredImage {
-            node {
-              altText
-              sourceUrl 
-            }
-          }
             }
           }
         }
@@ -49,12 +67,60 @@ import gql from 'graphql-tag'
       }
 
 `
+export default {
+
+asyncData({ app, params }) {
+  const apolloClient = app.apolloProvider.defaultClient
+
+  return apolloClient.query({
+    query: GET_POST_AND_RELATED,
+    variables: {
+      slug: params.slug  
+    }
+  })
+  .then(({ data }) => {
+    const post = data.post
+
+    return {
+      post,
+    }
+  })
+},
+
+data() {
+  return {
+    post: null,
+    relatedPosts: [] 
+  }
+},
+
+// Other code
  
+watch: {
+    async post() {
+      if (!this.post) return
+
+      const tags = this.post.tags.nodes
+
+      let relatedPosts = []
+      
+      for (const tag of tags) {
+        relatedPosts.push(...tag.posts.nodes)
+      }
+      
+      relatedPosts = [...new Set(relatedPosts)]
+
+const filteredRelatedPosts = relatedPosts.filter(post => post.slug !== this.post.slug)
+this.relatedPosts = filteredRelatedPosts.slice(0,4)
+    }
+  }
+}
+ /*
 export default {
 
   data() {
     return {
-      post: [],
+      post: null,
       relatedPosts: []
     }
   },
@@ -65,19 +131,19 @@ export default {
         {
           hid: 'description',
           name: 'description',
-          content: this.post.seo?.metaDesc
+          content: this.post.seo.metaDesc
         },
         {
           hid: 'keywords',
           name: 'keywords',
-          content: this.post.seo?.focuskw
+          content: this.post.seo.focuskw
         },
       ];
     },
   },
   head() {
     return {
-      title: this.post.seo?.title,
+      title: this.post.seo.title,
       meta: this.metaTags,
     };
   },
@@ -100,7 +166,6 @@ export default {
   apollo: {
     post: {
       query: GET_POST_AND_RELATED,
-      prefetch: true,
       variables() {
         return {
           slug: this.$route.params.slug
@@ -128,4 +193,5 @@ this.relatedPosts = filteredRelatedPosts.slice(0,4)
     }
   }
 
-};
+} */
+</script>
