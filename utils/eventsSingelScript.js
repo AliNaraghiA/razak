@@ -43,6 +43,12 @@ export default {
     slug
     content
     date
+    galleryevents{
+      galleryevents{
+        altText
+        sourceUrl
+      }
+    }
     featuredImage{
       node{
         altText
